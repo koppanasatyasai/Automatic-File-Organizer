@@ -1,0 +1,29 @@
+import os
+import shutil
+
+folder = input("Enter folder path: ")
+
+categories = {
+    "Images": [".jpg", ".png", ".jpeg"],
+    "Documents": [".pdf", ".docx", ".txt"],
+    "Videos": [".mp4", ".mkv"],
+}
+
+for category in categories:
+    os.makedirs(os.path.join(folder, category),
+                exist_ok=True)
+
+for file in os.listdir(folder):
+    file_path = os.path.join(folder, file)
+
+    if os.path.isfile(file_path):
+        extension = os.path.splitext(file)[1].lower()
+
+        for category, extensions in categories.items():
+            if extension in extensions:
+                destination = os.path.join(folder, category, file)
+                shutil.move(file_path, destination)
+                print("Moved:", file)
+                break
+
+print("File Organization Completed!")
